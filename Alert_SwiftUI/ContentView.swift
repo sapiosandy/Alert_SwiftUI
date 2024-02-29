@@ -9,16 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showAlert = false
+    @State private var buttonTapped = ""
     
     var body: some View {
-        VStack {
-            Button(action: { showAlert.toggle()
+        VStack (spacing: 25) {
+            Text("\(buttonTapped)")
+            Button(action: {
+                showAlert.toggle()
             }) {
-                Text ("Show Alert")
+                Text("Show Alert")
             }
-            .alert(isPresented: $showAlert) { () -> Alert in
-                Alert(title: Text("Warning"), message: Text ("Do you really want to delete this message?"))
-            }
+            .alert(isPresented: $showAlert, content: {
+                Alert(title: Text("Warning"), message: Text ("Do you want to delete the file?"), primaryButton: Alert.Button.default(Text("Primary"), action: {
+                    buttonTapped = "Primary tapped"
+                }), secondaryButton: Alert.Button.destructive(Text("Secondary"), action: {
+                    buttonTapped = "Destructive tapped"
+                }))
+            })
         }
     }
 }
